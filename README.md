@@ -16,3 +16,5 @@ Terimakasih jika ada yang eror silahkan hubungi di bawah
 Hubungi melalui [WhatsApp](https://wa.me/6282118263527)
 
 Hubungi melalui [Telegram](https://t.me/my_enzoxavier)
+
+Support gw melalui [Donasi](https://saweria.co/Hansculs)
