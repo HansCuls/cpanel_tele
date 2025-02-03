@@ -1,0 +1,26 @@
+{
+  "name": "telegram-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for panel management",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "test": "npm start"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "panel",
+    "management",
+    "node.js"
+  ],
+  "author": "hanszculsz",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-fetch": "^3.3.2",
+    "node-telegram-bot-api": "^0.64.0"
+  }
+  "devDependencies": {
+    "javascript-obfuscator": "^4.0.0"
+}

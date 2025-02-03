@@ -1,0 +1,8 @@
+BOT_TOKEN=Bot_token_lu
+OWNER_ID=id_tele_lu
+DOMAIN_PANEL=domain_lu
+PANEL_API_KEY=apikey_lu
+CLIENT_API_KEY=capikey_lu
+LOCATION_ID=id_location_lu default id 1
+NODEJS_EGG=id_egg_lu default id 15
+BOT_PHOTO_URL=url_foto opsional
