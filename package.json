@@ -7,13 +7,6 @@
     "start": "node bot.js",
     "test": "npm start"
   },
-  "keywords": {
-    "telegram",
-    "bot",
-    "panel",
-    "management",
-    "node.js"
-  },
   "author": "hanszculsz",
   "license": "ISC",
   "dependencies": {
