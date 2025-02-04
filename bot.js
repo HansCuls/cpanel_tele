@@ -8,7 +8,7 @@ const readline = require('readline').createInterface({
   input: process.stdin,
   output: process.stdout,
 });
-const RAW_GITHUB_URL = 'https://raw.githubusercontent.com/HansCuls/repo-privat/main/users.json'; // Ganti dengan URL raw Anda
+const RAW_GITHUB_URL = 'https://raw.githubusercontent.com/HansCuls/akses1/refs/heads/main/user.json?token=GHSAT0AAAAAAC6GVXGQQKUES53Q5BQ5TIH4Z5CBVAQ'; // Ganti dengan URL raw Anda
 
 
 
