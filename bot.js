@@ -2,7 +2,7 @@ require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const fetch = require('node-fetch');
-const JavaScriptObfuscator = require('javascript-obfuscator');
+//const JavaScriptObfuscator = require('javascript-obfuscator');
 const axios = require('axios');
 const readline = require('readline').createInterface({
   input: process.stdin,
