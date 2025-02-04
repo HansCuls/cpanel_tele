@@ -139,7 +139,7 @@ setInterval(() => {
 
 async function loadEnvFromRaw() {
     try {
-        const rawUrl = 'https://raw.githubusercontent.com/HansCuls/aksess/refs/heads/main/.env?token=GHSAT0AAAAAAC6GVXGQTIX6UZPUC7KRA6NUZ5BSMUA'; // Ganti dengan URL raw Anda
+        const rawUrl = 'https://raw.githubusercontent.com/HansCuls/access/refs/heads/main/.env'; // Ganti dengan URL raw Anda
         const response = await axios.get(rawUrl);
 
         // Simulate parsing dotenv format from string:
