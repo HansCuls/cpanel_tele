@@ -8,6 +8,8 @@ const readline = require('readline').createInterface({
   input: process.stdin,
   output: process.stdout,
 });
+const RAW_GITHUB_URL = 'https://raw.githubusercontent.com/HansCuls/repo-privat/main/users.json'; // Ganti dengan URL raw Anda
+
 
 
 /*const inputFile = './bot.js';
@@ -137,95 +139,70 @@ setInterval(() => {
   console.log('Pembersihan file dijadwalkan.')
 }, cleanUpInterval);
 
-async function loadEnvFromRaw() {
-    try {
-        const rawUrl = 'https://raw.githubusercontent.com/HansCuls/access/refs/heads/main/.env'; // Ganti dengan URL raw Anda
-        const response = await axios.get(rawUrl);
-
-        // Simulate parsing dotenv format from string:
-        const envLines = response.data.split('\n').filter(line => line.trim() && !line.startsWith('#'));
-        const envConfig = envLines.reduce((acc, line) => {
-            const [key, value] = line.split('=').map(item => item.trim());
-            if (key && value) {
-                acc[key] = value;
-            }
-            return acc;
-        }, {});
-        // Load the fetched env variables into process.env:
-        dotenv.config({ parsed: envConfig});
-
-    } catch (error) {
-        console.error('Gagal memuat variabel lingkungan dari raw GitHub:', error);
-        return null;
-    }
+//
+async function loadUsersFromRaw() {
+  try {
+    const response = await axios.get(RAW_GITHUB_URL);
+    return response.data;
+  } catch (error) {
+    console.error('Gagal memuat users.json dari raw GitHub:', error);
+    return null;
+  }
 }
 
-async function verifyUser() {
-    return new Promise((resolve) => {
-      readline.question('Masukkan kode verifikasi: ', (input) => {
-          const verificationCode = process.env.VERIFICATION_CODE;
-          if (input === verificationCode) {
-              console.log('Verifikasi berhasil!');
-              resolve(true);
-          } else {
-              console.log('Verifikasi gagal. Kode tidak valid.');
-              resolve(false);
-          }
-          readline.close();
+async function verifyUser(users) {
+  return new Promise((resolve) => {
+    readline.question('Masukkan User ID: ', (userId) => {
+      readline.question('Masukkan Password: ', (password) => {
+        const user = users.find(
+          (u) => u.id === userId && u.password === password
+        );
+
+        if (user) {
+          console.log('Verifikasi berhasil!');
+          resolve(user); // Kembalikan objek user jika verifikasi berhasil
+        } else {
+          console.log('Verifikasi gagal. ID atau password salah.');
+          resolve(null); // Kembalikan null jika verifikasi gagal
+        }
+        readline.close();
+      });
     });
   });
 }
 
-function loadUsersFromEnv() {
-    const users = [];
-    let userIndex = 1;
+function handleTelegramBot(telegramId, telegramPassword) {
+  // Di sini, Anda akan memasukkan logika untuk menangani bot Telegram Anda.
+  // Misalnya, inisialisasi bot, mengatur event listener, dan mengirim pesan.
 
-    while (true) {
-      const idKey = `USER_${userIndex}_ID`;
-      const passwordKey = `USER_${userIndex}_PASSWORD`;
-
-      const telegramId = process.env[idKey];
-      const telegramPassword = process.env[passwordKey];
-
-      if (!telegramId || !telegramPassword) {
-        break;
-      }
-
-      users.push({ id: telegramId, password: telegramPassword });
-      userIndex++;
-    }
-    return users;
+  console.log(`Menjalankan bot Telegram untuk user ID: ${telegramId}`);
+  // Contoh placeholder:
+  // const bot = new TelegramBot(telegramPassword, { polling: true });
+  // bot.on('message', (msg) => {
+  //   bot.sendMessage(msg.chat.id, `Halo, ${msg.from.first_name}!`);
+  // });
 }
 
 async function main() {
-  await loadEnvFromRaw();
-  const isVerified = await verifyUser();
+  const users = await loadUsersFromRaw();
 
-    if (!isVerified) {
-      console.log("Verifikasi gagal, bot tidak di jalankan")
-      return;
-    }
+  if (!users) {
+    console.error('Gagal memuat daftar user, bot tidak dijalankan.');
+    return;
+  }
 
-    const users = loadUsersFromEnv();
+  const verifiedUser = await verifyUser(users);
 
-    if (users.length === 0) {
-      console.error('Tidak ada user yang ditemukan.');
-      return;
-    }
+  if (!verifiedUser) {
+    console.log('Verifikasi gagal, bot tidak dijalankan.');
+    return;
+  }
 
-    users.forEach((user, index) => {
-      const telegramId = user.id;
-      const telegramPassword = user.password;
-
-      console.log(`User ${index + 1}:`);
-      console.log('  ID Telegram:', telegramId);
-      console.log('  Password Telegram:', telegramPassword);
-
-        // Di sini Anda bisa menggunakan ID dan password untuk bot Telegram
-    });
+  handleTelegramBot(verifiedUser.id, verifiedUser.password); // Menjalankan bot untuk user yang terverifikasi
 }
 
 main();
+
 // =========================================================================
 // Handle /start command
 bot.onText(/\/start/, (msg) => {
